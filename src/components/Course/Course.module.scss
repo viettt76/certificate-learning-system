@@ -1,6 +1,9 @@
 @import '../../styles/index.scss';
 
 .wrapper {
+    display: block;
+    text-decoration: none;
+    color: $main-clr;
     padding: 10px;
     border: 1px dashed #ccc;
     margin: 0 10px;

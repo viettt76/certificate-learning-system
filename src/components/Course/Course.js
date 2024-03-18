@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import styles from './Course.module.scss';
+import { Link } from 'react-router-dom';
 
 const Course = ({ course }) => {
     return (
-        <div className={clsx(styles['wrapper'])}>
+        <Link to="/detail" className={clsx(styles['wrapper'])}>
             <img className={clsx(styles['img'])} src={course?.img} alt={course?.name} />
             <p className={clsx(styles['name'])}>{course?.name}</p>
             <p className={clsx(styles['genres'])}>{course?.genres}</p>
@@ -16,9 +17,9 @@ const Course = ({ course }) => {
             </div>
             <div className={clsx(styles['fee-actions'])}>
                 <span className={clsx(styles['fee'])}>{course?.fee}</span>
-                <button className={clsx(styles['button-learn'])}>Học ngay ></button>
+                <button className={clsx(styles['button-learn'])}>Học ngay {'>'}</button>
             </div>
-        </div>
+        </Link>
     );
 };
 
