@@ -1,0 +1,93 @@
+@import '../../styles/variables';
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.wrapper {
+    position: relative;
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        margin: 10px 0 10px 15px;
+    }
+
+    &:hover .menu {
+        display: block;
+    }
+
+    &::before {
+        position: absolute;
+        top: 40px;
+        right: 0;
+        display: block;
+        content: '';
+        width: 100px;
+        height: 25px;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        border: 1px solid #d1d7dc;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px #d1d7dc, 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.2s ease-in;
+
+        .menu-user-info {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+
+            .menu-avatar {
+                width: 44px;
+                height: 44px;
+                margin-right: 6px;
+            }
+            .menu-name-email {
+                display: flex;
+                flex-direction: column;
+
+                .menu-user-name {
+                    font-size: 16px;
+                    white-space: nowrap;
+                    color: $main-color;
+                }
+
+                .menu-user-email {
+                    font-size: 12px;
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        .menu-section {
+            padding-left: 0;
+            margin-bottom: 0;
+
+            .section {
+                border-top: 1px solid #d1d7dc;
+
+                .group-menu-item {
+                    padding: 5px 16px;
+                    margin-bottom: 0;
+
+                    .menu-item {
+                        cursor: pointer;
+                        padding: 5px 0;
+                        white-space: nowrap;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
