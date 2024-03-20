@@ -11,7 +11,7 @@ const GroupCourseFree = [
         imgAuthor: 'https://thuthuatnhanh.com/wp-content/uploads/2020/09/hinh-anh-anime-lanh-lung-xam-chat.jpg',
         nameAuthor: 'Hoàng Quốc Việt',
         time: '8 giờ 18 phút',
-        fee: 'Miễn phí',
+        price: 'Miễn phí',
     },
     {
         name: 'Digital Marketing',
@@ -20,7 +20,7 @@ const GroupCourseFree = [
         imgAuthor: 'https://khoinguonsangtao.vn/wp-content/uploads/2022/08/anh-anime-nam-dep-hiem-cute.jpg',
         nameAuthor: 'Nguyễn Văn Anh Vũ',
         time: '15 giờ 56 phút',
-        fee: 'Miễn phí',
+        price: 'Miễn phí',
     },
     // {
     //     name: 'A',
@@ -29,7 +29,7 @@ const GroupCourseFree = [
     //     imgAuthor: 'https://thuthuatnhanh.com/wp-content/uploads/2020/09/hinh-anh-anime-lanh-lung-xam-chat.jpg',
     //     nameAuthor: 'Hoàng Quốc Việt',
     //     time: '8 giờ 18 phút',
-    //     fee: 'Miễn phí',
+    //     price: 'Miễn phí',
     // },
     // {
     //     name: 'B',
@@ -38,7 +38,7 @@ const GroupCourseFree = [
     //     imgAuthor: 'https://th.bing.com/th/id/OIP.Yi7vYXE4n2pQd_JpRI92fwHaIe?w=450&h=515&rs=1&pid=ImgDetMain',
     //     nameAuthor: 'Nguyễn Văn Anh Vũ',
     //     time: '15 giờ 56 phút',
-    //     fee: 'Miễn phí',
+    //     price: 'Miễn phí',
     // },
     // {
     //     name: 'C',
@@ -47,7 +47,7 @@ const GroupCourseFree = [
     //     imgAuthor: 'https://thuthuatnhanh.com/wp-content/uploads/2020/09/hinh-anh-anime-lanh-lung-xam-chat.jpg',
     //     nameAuthor: 'Hoàng Quốc Việt',
     //     time: '8 giờ 18 phút',
-    //     fee: 'Miễn phí',
+    //     price: 'Miễn phí',
     // },
     // {
     //     name: 'D',
@@ -56,7 +56,7 @@ const GroupCourseFree = [
     //     imgAuthor: 'https://khoinguonsangtao.vn/wp-content/uploads/2022/08/anh-anime-nam-dep-hiem-cute.jpg',
     //     nameAuthor: 'Nguyễn Văn Anh Vũ',
     //     time: '15 giờ 56 phút',
-    //     fee: 'Miễn phí',
+    //     price: 'Miễn phí',
     // },
     // {
     //     name: 'E',
@@ -65,7 +65,7 @@ const GroupCourseFree = [
     //     imgAuthor: 'https://thuthuatnhanh.com/wp-content/uploads/2020/09/hinh-anh-anime-lanh-lung-xam-chat.jpg',
     //     nameAuthor: 'Hoàng Quốc Việt',
     //     time: '8 giờ 18 phút',
-    //     fee: 'Miễn phí',
+    //     price: 'Miễn phí',
     // },
     // {
     //     name: 'F',
@@ -74,7 +74,7 @@ const GroupCourseFree = [
     //     imgAuthor: 'https://khoinguonsangtao.vn/wp-content/uploads/2022/08/anh-anime-nam-dep-hiem-cute.jpg',
     //     nameAuthor: 'Nguyễn Văn Anh Vũ',
     //     time: '15 giờ 56 phút',
-    //     fee: 'Miễn phí',
+    //     price: 'Miễn phí',
     // },
     // {
     //     name: 'G',
@@ -83,7 +83,7 @@ const GroupCourseFree = [
     //     imgAuthor: 'https://thuthuatnhanh.com/wp-content/uploads/2020/09/hinh-anh-anime-lanh-lung-xam-chat.jpg',
     //     nameAuthor: 'Hoàng Quốc Việt',
     //     time: '8 giờ 18 phút',
-    //     fee: 'Miễn phí',
+    //     price: 'Miễn phí',
     // },
 ];
 

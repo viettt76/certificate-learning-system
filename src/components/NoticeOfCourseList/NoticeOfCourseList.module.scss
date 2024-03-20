@@ -1,0 +1,73 @@
+@import '../../styles/variables';
+
+.wrapper {
+    position: relative;
+
+    .icon {
+        padding: 4px;
+        margin: 0 12px;
+        width: 24px;
+        height: 24px;
+        color: #707070;
+
+        &:hover {
+            color: $main-color;
+        }
+    }
+
+    .group-courses {
+        display: none;
+        border: 1px solid #d1d7dc;
+        box-shadow: 0 0 0 1px #d1d7dc, 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
+        background-color: #fff;
+        width: 300px;
+        position: absolute;
+        right: 0px;
+
+        .course {
+            display: flex;
+            align-items: center;
+
+            .course-img {
+                width: 100px;
+                height: 50px;
+                margin-right: 8px;
+            }
+
+            .course-name {
+                margin-bottom: 0px;
+                font-size: 14px;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+
+            .course-price {
+                font-size: 11px;
+            }
+        }
+    }
+
+    .show-group-courses {
+        display: block;
+    }
+
+    .group-courses-empty {
+        padding: 16px;
+        position: absolute;
+
+        p {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        a {
+            font-size: 14px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+    }
+}

@@ -15,8 +15,8 @@ const Course = ({ course }) => {
                 </div>
                 <div className={clsx(styles['time'])}>{course?.time}</div>
             </div>
-            <div className={clsx(styles['fee-actions'])}>
-                <span className={clsx(styles['fee'])}>{course?.fee}</span>
+            <div className={clsx(styles['price-actions'])}>
+                <span className={clsx(styles['price'])}>{course?.price}</span>
                 <button className={clsx(styles['button-learn'])}>Học ngay {'>'}</button>
             </div>
         </Link>
