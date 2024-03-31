@@ -23,6 +23,13 @@
         width: 300px;
         position: absolute;
         right: 0px;
+        animation: fadeIn 0.4s ease-in-out;
+
+        .title {
+            margin: 5px 0;
+            text-align: center;
+            font-size: 20px;
+        }
 
         .course {
             display: flex;
@@ -69,5 +76,14 @@
             text-align: center;
             display: block;
         }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

@@ -8,3 +8,7 @@ export const loginSuccess = (userInfo) => ({
 export const logoutSuccess = () => ({
     type: actionsType.LOGOUT_SUCCESS,
 });
+
+export const registerTeacherSuccess = () => ({
+    type: actionsType.REGISTER_TEACHER_SUCCESS,
+});

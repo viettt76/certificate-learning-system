@@ -5,21 +5,21 @@ import { useEffect, useRef, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const CoursesLiked = ({ listCourses, icon, textWhenEmpty, textLinkWhenEmpty, linkWhenEmpty }) => {
-    const [listCoursesLiked, setListCoursesLiked] = useState([]);
-    const [showListCoursesLiked, setShowListCoursesLiked] = useState(false);
+const NoticeOfCourseList = ({ title, courseList, icon, textWhenEmpty, textLinkWhenEmpty, linkWhenEmpty }) => {
+    const [CourseListState, setCourseListState] = useState([]);
+    const [showCourseList, setShowCourseList] = useState(false);
 
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
-            setShowListCoursesLiked(false);
+            setShowCourseList(false);
         }
     };
 
     useEffect(() => {
-        setListCoursesLiked(listCourses);
-    }, [listCourses]);
+        setCourseListState(courseList);
+    }, [courseList]);
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
@@ -31,32 +31,35 @@ const CoursesLiked = ({ listCourses, icon, textWhenEmpty, textLinkWhenEmpty, lin
     return (
         <div ref={ref} className={clsx(styles['wrapper'])}>
             <FontAwesomeIcon
-                onClick={() => setShowListCoursesLiked(!showListCoursesLiked)}
+                onClick={() => setShowCourseList(!showCourseList)}
                 className={clsx(styles['icon'])}
                 icon={icon}
             />
-            {listCoursesLiked.length > 0 ? (
-                <ListGroup
-                    className={clsx(styles['group-courses'], {
-                        [styles['show-group-courses']]: showListCoursesLiked,
-                    })}
-                >
-                    {listCoursesLiked.map((item, index) => {
-                        return (
-                            <ListGroup.Item className={clsx(styles['course'])} key={`course-${index}`}>
-                                <img className={clsx(styles['course-img'])} src={item?.img} alt={item?.name} />
-                                <div>
-                                    <h5 className={clsx(styles['course-name'])}>{item?.name}</h5>
-                                    <span className={clsx(styles['course-price'])}>{item?.price}</span>
-                                </div>
-                            </ListGroup.Item>
-                        );
-                    })}
-                </ListGroup>
+            {CourseListState.length > 0 ? (
+                <div>
+                    <ListGroup
+                        className={clsx(styles['group-courses'], {
+                            [styles['show-group-courses']]: showCourseList,
+                        })}
+                    >
+                        <h5 className={clsx(styles['title'])}>{title}</h5>
+                        {CourseListState.map((item, index) => {
+                            return (
+                                <ListGroup.Item className={clsx(styles['course'])} key={`course-${index}`}>
+                                    <img className={clsx(styles['course-img'])} src={item?.img} alt={item?.name} />
+                                    <div>
+                                        <h5 className={clsx(styles['course-name'])}>{item?.name}</h5>
+                                        <span className={clsx(styles['course-price'])}>{item?.price}</span>
+                                    </div>
+                                </ListGroup.Item>
+                            );
+                        })}
+                    </ListGroup>
+                </div>
             ) : (
                 <div
                     className={clsx(styles['group-courses'], styles['group-courses-empty'], {
-                        [styles['show-group-courses']]: showListCoursesLiked,
+                        [styles['show-group-courses']]: showCourseList,
                     })}
                 >
                     <p>{textWhenEmpty}</p>
@@ -67,4 +70,4 @@ const CoursesLiked = ({ listCourses, icon, textWhenEmpty, textLinkWhenEmpty, lin
     );
 };
 
-export default CoursesLiked;
+export default NoticeOfCourseList;

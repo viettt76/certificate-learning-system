@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Course from '~/components/Course';
 import styles from './GroupCourses.module.scss';
 
-const GroupCourses = ({ title, groupCourses }) => {
+const GroupCourses = ({ title, groupCourses, isTeacher }) => {
     const slidesToShow = 5;
     const settings = {
         dots: true,
@@ -41,7 +41,16 @@ const GroupCourses = ({ title, groupCourses }) => {
                 {groupCourses.map((course, index) => {
                     return (
                         <div style={{ width: 100 }} key={`course-${index}`}>
-                            <Course key={`course-${index}`} course={course} />
+                            <Course
+                                courseId={course?.id}
+                                img={course?.img}
+                                name={course?.name}
+                                imgAuthor={course?.imgAuthor}
+                                nameAuthor={course?.nameAuthor}
+                                time={course?.time}
+                                price={course?.price}
+                                isTeacher={isTeacher}
+                            />
                         </div>
                     );
                 })}

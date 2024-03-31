@@ -19,10 +19,6 @@
         margin: 10px 0 10px 15px;
     }
 
-    &:hover .menu {
-        display: block;
-    }
-
     &::before {
         position: absolute;
         top: 40px;
@@ -34,7 +30,6 @@
     }
 
     .menu {
-        display: none;
         position: absolute;
         top: 60px;
         right: 0;
@@ -86,6 +81,11 @@
                         padding: 5px 0;
                         white-space: nowrap;
                         font-size: 14px;
+
+                        a {
+                            text-decoration: none;
+                            color: $main-color;
+                        }
                     }
                 }
             }

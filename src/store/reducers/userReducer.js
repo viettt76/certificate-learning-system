@@ -1,13 +1,14 @@
 import actionsType from '../actions/actionsType';
 
 const initState = {
+    id: '',
     email: '',
-    email_verified: false,
-    family_name: '',
-    given_name: '',
-    locale: '',
+    emailVerified: false,
+    familyName: '',
+    givenName: '',
     name: '',
     picture: '',
+    isTeacher: 0,
 };
 
 const userReducer = (state = initState, action) => {
@@ -15,24 +16,31 @@ const userReducer = (state = initState, action) => {
         case actionsType.LOGIN_SUCCESS:
             return {
                 ...state,
+                id: action.payload?.id,
                 email: action.payload?.email,
-                email_verified: action.payload?.email_verified,
-                family_name: action.payload?.family_name,
-                given_name: action.payload?.given_name,
-                locale: action.payload?.locale,
+                emailVerified: action.payload?.emailVerified,
+                familyName: action.payload?.familyName,
+                givenName: action.payload?.givenName,
                 name: action.payload?.name,
                 picture: action.payload?.picture,
+                isTeacher: action.payload?.isTeacher,
             };
         case actionsType.LOGOUT_SUCCESS:
             return {
                 ...state,
+                id: '',
                 email: '',
-                email_verified: false,
-                family_name: '',
-                given_name: '',
-                locale: '',
+                emailVerified: false,
+                familyName: '',
+                givenName: '',
                 name: '',
                 picture: '',
+                isTeacher: 0,
+            };
+        case actionsType.REGISTER_TEACHER_SUCCESS:
+            return {
+                ...state,
+                isTeacher: 1,
             };
         default:
             return state;

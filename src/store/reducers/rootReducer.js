@@ -7,7 +7,7 @@ import userReducer from './userReducer';
 const userPersistConfig = {
     key: 'user',
     storage,
-    whitelist: ['email', 'email_verified', 'family_name', 'given_name', 'locale', 'name', 'picture'],
+    whitelist: ['id', 'email', 'emailVerified', 'familyName', 'givenName', 'name', 'picture', 'isTeacher'],
 };
 
 const rootReducer = combineReducers({
