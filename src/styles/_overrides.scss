@@ -3,6 +3,15 @@
     margin: 0;
 }
 
+html,
+body {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: var(--font-family);
+}
+
 ul,
 li,
 ol {
@@ -20,13 +29,52 @@ a {
 
 .slick-track {
     margin-left: 0 !important;
-    // transform: translate3d(0, 0, 0) !important;
+    display: flex !important;
 }
 
 .slick-list {
     overflow: unset !important;
 }
 
+.slick-slide {
+    height: inherit !important;
+
+    & > div {
+        height: 100%;
+        & > div {
+            height: 100%;
+            & > div {
+                height: 100%;
+            }
+        }
+    }
+}
+
 .slick-track-number-of-slide-less-slides-to-show .slick-track {
     transform: translate3d(0, 0, 0) !important;
+}
+
+.slick-dots .slick-active {
+    display: none !important;
+}
+
+form {
+    .form-label {
+        font-size: 1.6rem;
+    }
+    .form-control {
+        font-size: 1.6rem;
+    }
+    .form-select {
+        font-size: 1.6rem;
+    }
+}
+
+body {
+    .mt-3,
+    .mb-3,
+    .ms-3,
+    .me-3 {
+        margin-bottom: 1.6rem !important;
+    }
 }

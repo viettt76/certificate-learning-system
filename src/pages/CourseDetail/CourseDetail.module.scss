@@ -1,102 +1,127 @@
-@import '../../styles/index.scss';
-
 .wrapper {
     .overview {
         display: flex;
-        align-items: center;
-        padding-block: 20px;
+        padding-block: 2rem;
 
-        .course-image {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
+        .course-image-wrapper {
+            display: flex;
+            align-items: center;
+
+            .course-image {
+                width: 20rem;
+                height: 20rem;
+                object-fit: cover;
+                border-radius: 0.5rem;
+            }
         }
 
         .course-info {
             flex: 1;
-            margin: 0 30px auto 20px;
-            border-right: 1px solid #7a7a7a21;
+            margin: 0 0 auto 2rem;
 
             .course-name {
-                font-size: 25px;
+                font-size: 2.5rem;
                 font-weight: 700;
-                color: $main-color;
+                color: var(--main-color);
             }
 
             .course-author {
                 display: flex;
                 align-items: center;
                 width: 80%;
-                border-bottom: 1px solid #7a7a7a21;
-                padding-bottom: 10px;
-                margin-bottom: 10px;
+                border-bottom: 0.1rem solid #7a7a7a21;
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
 
                 .author-image {
-                    width: 25px;
-                    height: 25px;
+                    width: 2.5rem;
+                    height: 2.5rem;
                     border-radius: 50%;
-                    margin-right: 8px;
+                    margin-right: 0.8rem;
                 }
 
                 .author-name {
-                    font-size: 13px;
+                    font-size: 1.3rem;
                     color: #333333e7;
                     font-weight: bold;
                 }
             }
 
             .course-description {
-                padding-right: 40px;
-                font-size: 14px;
+                padding-right: 4rem;
+                font-size: 1.4rem;
+            }
+
+            .course-rated {
+                font-size: 1.4rem;
             }
         }
 
-        .button-learn {
-            background-color: $main-color;
-            white-space: nowrap;
-            font-size: 16px;
-            padding: 12px 50px;
-            font-weight: 700;
+        .buy-course-wrapper {
+            height: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 0.1rem solid rgba(122, 122, 122, 0.1294117647);
+            padding-left: 30px;
+
+            .course-price {
+                font-size: 2.3rem;
+                font-weight: bold;
+            }
+
+            .button-buy {
+                color: #fff;
+                background-color: var(--main-color);
+                white-space: nowrap;
+                font-size: 1.6rem;
+                padding: 1.2rem 5rem;
+                font-weight: 700;
+            }
         }
     }
 
     .special {
         display: flex;
         justify-content: space-around;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-        padding: 30px 0;
-        border-radius: 5px;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+        padding: 3rem 0;
+        border-radius: 0.5rem;
 
         .special-item {
-            padding: 10px 30px;
+            padding: 1rem 3rem;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
 
             .special-item-title {
+                font-size: 1.6rem;
                 font-weight: bold;
                 display: flex;
                 align-items: center;
-                margin-bottom: 5px;
+                margin-bottom: 0.5rem;
 
                 span {
-                    margin-left: 6px;
+                    margin-left: 0.6rem;
                 }
+            }
+
+            .special-item-content {
+                font-size: 1.6rem;
             }
         }
         .special-item + .special-item {
-            border-left: 1px solid #7a7a7a21;
+            border-left: 0.1rem solid #7a7a7a21;
         }
     }
 
     .curriculum-of-course {
         width: 70%;
-        margin-top: 40px;
+        margin-top: 4rem;
 
         .curriculum-of-course-header {
-            font-size: 23px;
+            font-size: 2.3rem;
         }
         .curriculum-of-course-subheader {
             display: flex;
@@ -107,11 +132,12 @@
                 padding: 0;
 
                 li {
-                    margin: 0 4px;
-                    font-size: 14px;
+                    margin: 0 0.4rem;
+                    font-size: 1.4rem;
                 }
             }
             .curriculum-of-course-toggle-btn {
+                font-size: 1.6rem;
                 color: rgb(240, 81, 35);
                 cursor: pointer;
             }
@@ -121,17 +147,17 @@
             padding: 0;
 
             .curriculum-of-course-panel {
-                border: 1px solid #d1d7dc;
+                border: 0.1rem solid #d1d7dc;
                 border-top: none;
                 cursor: pointer;
 
                 &:first-child {
-                    border-top: 1px solid #d1d7dc;
+                    border-top: 0.1rem solid #d1d7dc;
                 }
 
                 .curriculum-of-course-panel-title {
                     background-color: rgb(247, 249, 250);
-                    padding: 16px 24px;
+                    padding: 1.6rem 2.4rem;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
@@ -143,32 +169,38 @@
 
                         svg {
                             position: absolute;
-                            top: 3px;
+                            top: 0.3rem;
                         }
 
                         h5 {
-                            margin-left: 25px;
+                            margin-left: 2.5rem;
                             margin-bottom: 0;
-                            font-size: 16px;
+                            font-size: 1.6rem;
                         }
                     }
 
                     .curriculum-of-course-panel-title-float-right {
-                        font-size: 14px;
+                        font-size: 1.4rem;
                     }
                 }
 
                 .curriculum-of-course-panel-collapse {
-                    // display: none;
-
                     ul {
                         padding: 0;
 
                         li {
                             display: flex;
                             justify-content: space-between;
-                            padding: 10px 30px 10px 48px;
-                            border-top: 1px solid #d1d7dc;
+                            padding: 1rem 3rem 1rem 4.8rem;
+                            border-top: 0.1rem solid #d1d7dc;
+
+                            .lesson-name {
+                                font-size: 1.5rem;
+                            }
+
+                            .lesson-time {
+                                font-size: 1.2rem;
+                            }
                         }
                     }
                 }

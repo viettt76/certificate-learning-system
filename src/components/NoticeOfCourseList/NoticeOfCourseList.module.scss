@@ -1,34 +1,32 @@
-@import '../../styles/variables';
-
 .wrapper {
     position: relative;
 
     .icon {
-        padding: 4px;
-        margin: 0 12px;
-        width: 24px;
-        height: 24px;
+        padding: 0.4rem;
+        margin: 0 1.2rem;
+        width: 2.4rem;
+        height: 2.4rem;
         color: #707070;
 
         &:hover {
-            color: $main-color;
+            color: var(--main-color);
         }
     }
 
     .group-courses {
         display: none;
-        border: 1px solid #d1d7dc;
-        box-shadow: 0 0 0 1px #d1d7dc, 0 2px 4px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 0.1rem solid #d1d7dc;
+        box-shadow: 0 0 0 0.1rem #d1d7dc, 0 0.2rem 0.4rem rgba(0, 0, 0, 0.08), 0 0.4rem 1.2rem rgba(0, 0, 0, 0.08);
         background-color: #fff;
-        width: 300px;
+        width: 30rem;
         position: absolute;
-        right: 0px;
+        right: 0rem;
         animation: fadeIn 0.4s ease-in-out;
 
         .title {
-            margin: 5px 0;
+            margin: 0.5rem 0;
             text-align: center;
-            font-size: 20px;
+            font-size: 2rem;
         }
 
         .course {
@@ -36,14 +34,14 @@
             align-items: center;
 
             .course-img {
-                width: 100px;
-                height: 50px;
-                margin-right: 8px;
+                width: 10rem;
+                height: 5rem;
+                margin-right: 0.8rem;
             }
 
             .course-name {
-                margin-bottom: 0px;
-                font-size: 14px;
+                margin-bottom: 0rem;
+                font-size: 1.4rem;
                 overflow: hidden;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
@@ -52,7 +50,7 @@
             }
 
             .course-price {
-                font-size: 11px;
+                font-size: 1.1rem;
             }
         }
     }
@@ -62,16 +60,16 @@
     }
 
     .group-courses-empty {
-        padding: 16px;
+        padding: 1.6rem;
         position: absolute;
 
         p {
-            font-size: 16px;
+            font-size: 1.6rem;
             text-align: center;
         }
 
         a {
-            font-size: 14px;
+            font-size: 1.4rem;
             text-decoration: none;
             text-align: center;
             display: block;

@@ -1,10 +1,10 @@
 .wrapper {
     position: sticky;
-    top: 78.67px;
+    top: 7.867rem;
     display: flex;
     flex-direction: column;
-    max-width: 100px;
-    padding: 10px 10px;
+    max-width: 10rem;
+    padding: 1rem 1rem;
 
     .item {
         display: flex;
@@ -12,12 +12,12 @@
         align-items: center;
 
         svg {
-            height: 20px;
+            height: 2rem;
         }
 
         span {
-            margin-top: 10px;
-            font-size: 15px;
+            margin-top: 1rem;
+            font-size: 1.5rem;
             white-space: nowrap;
         }
     }

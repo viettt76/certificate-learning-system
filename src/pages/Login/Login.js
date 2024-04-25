@@ -1,39 +1,31 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createAccountService } from '~/services';
-import * as actions from '~/store/actions';
+import { loginService } from '~/services';
+import { customToast } from '~/utils/commonUtils';
 
 const Login = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     return (
         <div className="d-flex justify-content-center mt-3">
             <GoogleLogin
                 onSuccess={async (credentialResponse) => {
-                    const decoded = jwtDecode(credentialResponse?.credential);
-                    let res = await createAccountService({
-                        email: decoded?.email,
-                        familyName: decoded?.family_name,
-                        givenName: decoded?.given_name,
-                        picture: decoded?.picture,
-                        createAt: new Date(),
-                        updateAt: null,
-                    });
-                    dispatch(
-                        actions.loginSuccess({
-                            id: res?.data?.id,
+                    try {
+                        const decoded = jwtDecode(credentialResponse?.credential);
+                        let res = await loginService({
                             email: decoded?.email,
-                            emailVerified: decoded?.email_verified,
                             familyName: decoded?.family_name,
                             givenName: decoded?.given_name,
-                            name: decoded?.name,
                             picture: decoded?.picture,
-                            isTeacher: res?.data?.isTeacher,
-                        }),
-                    );
-                    navigate('/');
+                        });
+                        if (!res?.errCode) {
+                            navigate('/');
+                        } else {
+                            customToast('error', 'Login failed');
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }}
                 onError={() => {
                     console.log('Login Failed');

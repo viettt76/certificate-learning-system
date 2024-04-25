@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import _ from 'lodash';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,75 +12,64 @@ import {
     faGraduationCap,
     faStopwatch,
 } from '@fortawesome/free-solid-svg-icons';
-import styles from './DetailCourse.module.scss';
-import { getDetailCourseService } from '~/services/courseService';
-import { convertBufferToBase64 } from '~/utils/commonUtils';
+import styles from './CourseDetail.module.scss';
+import { getCourseDetailsService } from '~/services';
+import { convertBufferToBase64, formatPrice, secondsConvertHoursAndMinutesAndSeconds } from '~/utils/commonUtils';
 
-const DetailCourse = () => {
+const CourseDetail = () => {
     const { courseId } = useParams();
 
     const [courseDetail, setCourseDetail] = useState({});
+    const [listActivePanel, setListActivePanel] = useState([]);
 
     useEffect(() => {
-        let getDetailCourseFetch = async () => {
-            let res = await getDetailCourseService(courseId);
-            if (res?.errCode === 0) {
-                let course = res?.data;
-                let courseLevel = 'Cơ bản';
-                if (course?.level === '2') {
-                    courseLevel = 'Nâng cao';
+        let getCourseDetailFetch = async () => {
+            try {
+                let res = await getCourseDetailsService(courseId);
+                if (!res?.errCode) {
+                    let course = res?.data;
+                    let chapterList = course.chapterList.map((chapter) => {
+                        return {
+                            chapterNumber: chapter?.chapterNumber,
+                            title: chapter?.title,
+                            numberOfLessons: chapter?.numberOfLessons,
+                            lessonList: chapter?.lessonList?.map((lesson) => {
+                                let time = secondsConvertHoursAndMinutesAndSeconds(lesson?.time);
+                                return {
+                                    name: lesson?.name,
+                                    time: `${time?.m < 10 ? `0${time.m}` : `${time.m}`}:${
+                                        time?.s < 10 ? `0${time.s}` : `${time.s}`
+                                    }`,
+                                    link: lesson?.video,
+                                };
+                            }),
+                        };
+                    });
+                    let time = secondsConvertHoursAndMinutesAndSeconds(course?.time);
+                    setCourseDetail({
+                        name: course?.name,
+                        img: convertBufferToBase64(course?.img),
+                        author: {
+                            img: convertBufferToBase64(course?.author?.picture),
+                            name: `${course?.author?.familyName} ${course?.author?.givenName}`,
+                        },
+                        description: course?.description,
+                        level: course?.level === 1 ? 'Cơ bản' : 'Nâng cao',
+                        price: course?.price,
+                        rate: course?.rate,
+                        numberOfParticipants: course?.numberOfParticipants,
+                        numberOfLessons: course?.numberOfLessons,
+                        time: `${time?.h} giờ ${time?.m} phút`,
+                        chapterList,
+                    });
                 }
-                setCourseDetail({
-                    name: course?.name,
-                    img: convertBufferToBase64(course?.img),
-                    author: {
-                        img: convertBufferToBase64(course?.authorInfo?.picture),
-                        name: `${course?.authorInfo?.familyName} ${course?.authorInfo?.givenName}`,
-                    },
-                    description: course?.description,
-                    level: courseLevel,
-                    numberOfLessons: '12',
-                    time: '03 giờ 26 phút',
-                    curriculums: [
-                        {
-                            title: 'Giới thiệu về career paths trong lĩnh vực Cloud Computing & AWS',
-                            numberOfLessons: '3',
-                            panels: [
-                                {
-                                    name: 'Các câu hỏi thường gặp',
-                                    time: '11:30',
-                                    link: 'https://youtu.be/8NWmfkQJ9Sg?list=RD8NWmfkQJ9Sg',
-                                },
-                                {
-                                    name: 'Giáo viên',
-                                    time: '01:46',
-                                    link: 'https://youtu.be/8NWmfkQJ9Sg?list=RD8NWmfkQJ9Sg',
-                                },
-                                {
-                                    name: 'Giảng viên',
-                                    time: '17:30',
-                                    link: 'https://youtu.be/8NWmfkQJ9Sg?list=RD8NWmfkQJ9Sg',
-                                },
-                            ],
-                        },
-                        {
-                            title: 'Global infrastructure của AWS, giới thiệu các services chính.',
-                            numberOfLessons: '6',
-                            panels: [
-                                { name: 'Học', time: '05:08', link: 'https://youtu.be/8NWmfkQJ9Sg?list=RD8NWmfkQJ9Sg' },
-                                { name: 'nữa', time: '09:34', link: 'https://youtu.be/8NWmfkQJ9Sg?list=RD8NWmfkQJ9Sg' },
-                                { name: 'Mãi', time: '23:56', link: 'https://youtu.be/8NWmfkQJ9Sg?list=RD8NWmfkQJ9Sg' },
-                            ],
-                        },
-                    ],
-                });
+            } catch (error) {
+                console.log(error);
             }
         };
 
-        getDetailCourseFetch();
+        getCourseDetailFetch();
     }, [courseId]);
-
-    const [listActivePanel, setListActivePanel] = useState([]);
 
     const handleClickPanel = (index) => {
         if (listActivePanel.includes(index)) {
@@ -94,10 +83,10 @@ const DetailCourse = () => {
     };
 
     const handleExpandAll = () => {
-        if (listActivePanel?.length === courseDetail?.curriculums?.length) {
+        if (listActivePanel?.length === courseDetail?.chapterList?.length) {
             setListActivePanel([]);
         } else {
-            setListActivePanel([...Array(courseDetail?.curriculums?.length).keys()]);
+            setListActivePanel([...Array(courseDetail?.chapterList?.length).keys()]);
         }
     };
 
@@ -105,7 +94,7 @@ const DetailCourse = () => {
         <Container className={clsx(styles['wrapper'])}>
             <div className={clsx(styles['overview'])}>
                 {courseDetail?.img && (
-                    <div>
+                    <div className={clsx(styles['course-image-wrapper'])}>
                         <img
                             className={clsx(styles['course-image'])}
                             src={courseDetail?.img}
@@ -124,11 +113,15 @@ const DetailCourse = () => {
                         <span className={clsx(styles['author-name'])}>{courseDetail?.author?.name}</span>
                     </div>
                     <p className={clsx(styles['course-description'])}>{courseDetail?.description}</p>
+                    <p className={clsx(styles['course-rated'])}>
+                        {courseDetail?.rate} stars {courseDetail?.numberOfParticipants} học viên
+                    </p>
                 </div>
-                <div>
-                    <Button className={clsx(styles['button-learn'])} size="lg">
-                        Học miễn phí {'>'}
-                    </Button>
+                <div className={clsx(styles['buy-course-wrapper'])}>
+                    <p className={clsx(styles['course-price'])}>{formatPrice(courseDetail?.price, 'VND')}</p>
+                    <Link className={clsx('btn', styles['button-buy'])} size="lg">
+                        Mua khoá học {'>'}
+                    </Link>
                 </div>
             </div>
             <div className={clsx(styles['special'])}>
@@ -137,21 +130,23 @@ const DetailCourse = () => {
                         <FontAwesomeIcon icon={faGaugeHigh} />
                         <span>Trình độ</span>
                     </span>
-                    <span>{courseDetail?.level}</span>
+                    <span className={clsx(styles['special-item-content'])}>{courseDetail?.level}</span>
                 </div>
                 <div className={clsx(styles['special-item'])}>
                     <span className={clsx(styles['special-item-title'])}>
                         <FontAwesomeIcon icon={faGraduationCap} />
                         <span>Số bài học</span>
                     </span>
-                    <span>{courseDetail?.numberOfLessons} bài học</span>
+                    <span className={clsx(styles['special-item-content'])}>
+                        {courseDetail?.numberOfLessons} bài học
+                    </span>
                 </div>
                 <div className={clsx(styles['special-item'])}>
                     <span className={clsx(styles['special-item-title'])}>
                         <FontAwesomeIcon icon={faStopwatch} />
                         <span>Thời lượng</span>
                     </span>
-                    <span>{courseDetail?.time}</span>
+                    <span className={clsx(styles['special-item-content'])}>{courseDetail?.time}</span>
                 </div>
             </div>
             <div className={clsx(styles['curriculum-of-course'])}>
@@ -159,7 +154,7 @@ const DetailCourse = () => {
                 <div className={clsx(styles['curriculum-of-course-subheader'])}>
                     <ul>
                         <li>
-                            <strong>{courseDetail?.curriculums?.length}</strong> chương
+                            <strong>{courseDetail?.chapterList?.length}</strong> chương
                         </li>
                         <li>•</li>
                         <li>
@@ -171,13 +166,13 @@ const DetailCourse = () => {
                         </li>
                     </ul>
                     <div onClick={handleExpandAll} className={clsx(styles['curriculum-of-course-toggle-btn'])}>
-                        {listActivePanel?.length === courseDetail?.curriculums?.length
+                        {listActivePanel?.length === courseDetail?.chapterList?.length
                             ? 'Thu gọn tất cả'
                             : 'Mở rộng tất cả'}
                     </div>
                 </div>
                 <ul className={clsx(styles['curriculum-of-course-curriculum-panel'])}>
-                    {courseDetail?.curriculums?.map((curriculum, index) => {
+                    {courseDetail?.chapterList?.map((chapter, index) => {
                         return (
                             <li key={`panel-${index}`} className={clsx(styles['curriculum-of-course-panel'])}>
                                 <div
@@ -190,22 +185,26 @@ const DetailCourse = () => {
                                         ) : (
                                             <FontAwesomeIcon icon={faAngleDown} />
                                         )}
-                                        <h5>{curriculum?.title}</h5>
+                                        <h5>
+                                            Chương {chapter?.chapterNumber}. {chapter?.title}
+                                        </h5>
                                     </div>
                                     <span className={clsx(styles['curriculum-of-course-panel-title-float-right'])}>
-                                        {curriculum?.numberOfLessons} bài học
+                                        {chapter?.numberOfLessons} bài học
                                     </span>
                                 </div>
                                 {listActivePanel.includes(index) ? (
                                     <div className={clsx(styles['curriculum-of-course-panel-collapse'])}>
                                         <ul>
-                                            {curriculum?.panels?.map((panel, index) => {
+                                            {chapter.lessonList?.map((lesson, index) => {
                                                 return (
                                                     <li key={`lesson-${index}`}>
-                                                        <Link to="">
-                                                            <FontAwesomeIcon icon={faCirclePlay} /> {panel?.name}
+                                                        <Link to="" className={clsx(styles['lesson-name'])}>
+                                                            <FontAwesomeIcon icon={faCirclePlay} /> {lesson?.name}
                                                         </Link>
-                                                        <div>{panel?.time}</div>
+                                                        <div className={clsx(styles['lesson-time'])}>
+                                                            {lesson?.time}
+                                                        </div>
                                                     </li>
                                                 );
                                             })}
@@ -223,4 +222,4 @@ const DetailCourse = () => {
     );
 };
 
-export default DetailCourse;
+export default CourseDetail;

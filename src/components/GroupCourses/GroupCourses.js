@@ -45,6 +45,7 @@ const GroupCourses = ({ title, groupCourses, isTeacher }) => {
                                 courseId={course?.id}
                                 img={course?.img}
                                 name={course?.name}
+                                authorId={course?.authorId}
                                 imgAuthor={course?.imgAuthor}
                                 nameAuthor={course?.nameAuthor}
                                 time={course?.time}

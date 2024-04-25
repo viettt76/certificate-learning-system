@@ -4,7 +4,7 @@ export const getAllCourseService = () => {
     return axios.get('/course/all');
 };
 
-export const getDetailCourseService = (id) => {
+export const getCourseDetailsService = (id) => {
     return axios.get('/course/detail', {
         params: { id },
     });
@@ -20,4 +20,16 @@ export const getCourseTeachingService = (id) => {
             id,
         },
     });
+};
+
+export const searchCourseService = (keyword) => {
+    return axios.get('/course/search', {
+        params: {
+            keyword,
+        },
+    });
+};
+
+export const updateCourseInfoService = (data) => {
+    return axios.put('/course/update-info', data);
 };

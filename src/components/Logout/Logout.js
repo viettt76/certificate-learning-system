@@ -1,21 +1,20 @@
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { googleLogout } from '@react-oauth/google';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import * as actions from '~/store/actions';
+import { logoutService } from '~/services';
 
 const Logout = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        googleLogout();
+        logoutService();
+        window.location.reload();
+        navigate('/');
+    };
     return (
-        <div
-            onClick={() => {
-                googleLogout();
-                dispatch(actions.logoutSuccess());
-                navigate('/');
-            }}
-        >
+        <div onClick={handleLogout}>
             <FontAwesomeIcon icon={faArrowRightFromBracket} /> Đăng xuất
         </div>
     );

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import clsx from 'clsx';
 import Slide from '~/components/Slide';
 import styles from './Home.module.scss';
 import GroupCourses from '~/components/GroupCourses';
-import { getAllCourseService } from '~/services/courseService';
-import _ from 'lodash';
+import { getAllCourseService } from '~/services';
 import { convertBufferToBase64 } from '~/utils/commonUtils';
 
 const Home = () => {
@@ -12,18 +12,23 @@ const Home = () => {
 
     useEffect(() => {
         const getAllCourseFetch = async () => {
-            let res = await getAllCourseService();
-            if (res?.errCode === 0) {
-                let clone = _.cloneDeep(res?.data).map((course) => ({
-                    id: course?.id,
-                    name: course?.name,
-                    img: convertBufferToBase64(course?.img || ''),
-                    imgAuthor: convertBufferToBase64(course?.authorInfo?.picture || ''),
-                    nameAuthor: `${course?.authorInfo?.familyName} ${course?.authorInfo?.givenName}`,
-                    time: '56 phút 08 giây',
-                    price: course?.price,
-                }));
-                setCourseList(clone);
+            try {
+                let res = await getAllCourseService();
+                if (!res?.errCode) {
+                    let clone = _.cloneDeep(res?.data).map((course) => ({
+                        id: course?.id,
+                        name: course?.name,
+                        img: convertBufferToBase64(course?.img || ''),
+                        authorId: course?.authorInfo?.id,
+                        imgAuthor: convertBufferToBase64(course?.authorInfo?.picture || ''),
+                        nameAuthor: `${course?.authorInfo?.familyName} ${course?.authorInfo?.givenName}`,
+                        time: '56 phút 08 giây',
+                        price: course?.price,
+                    }));
+                    setCourseList(clone);
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
         getAllCourseFetch();

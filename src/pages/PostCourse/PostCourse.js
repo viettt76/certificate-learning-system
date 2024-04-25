@@ -1,13 +1,33 @@
-import { useState } from 'react';
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import { Container, Button, Form } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { postCourseService } from '~/services/courseService';
-import { userInfoSelector } from '~/store/selectors';
+import { useNavigate } from 'react-router-dom';
+import { postCourseService, getPersonalInfoService } from '~/services';
 import { fileToBase64 } from '~/utils/commonUtils';
+import styles from './PostCourse.module.scss';
 
 const PostCourse = () => {
-    const userInfo = useSelector(userInfoSelector);
+    const navigate = useNavigate();
+    const [userInfo, setUserInfo] = useState(null);
+
     const [validated, setValidated] = useState(false);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                let res = await getPersonalInfoService();
+                if (!res?.errCode) {
+                    setUserInfo(res?.data);
+                } else {
+                    setUserInfo(null);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchUserInfo();
+    }, []);
 
     const [img, setImg] = useState(null);
     const [courseInfo, setCourseInfo] = useState({
@@ -24,12 +44,16 @@ const PostCourse = () => {
     };
 
     const handleChangeFile = async (e) => {
-        let base64 = await fileToBase64(e.target.files[0]);
-        setImg(base64);
-        setCourseInfo({
-            ...courseInfo,
-            img: base64,
-        });
+        try {
+            let base64 = await fileToBase64(e.target.files[0]);
+            setImg(base64);
+            setCourseInfo({
+                ...courseInfo,
+                img: base64,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleSubmit = (event) => {
@@ -38,14 +62,16 @@ const PostCourse = () => {
             event.preventDefault();
             event.stopPropagation();
         } else {
+            event.preventDefault();
             postCourseService(courseInfo);
+            navigate('/instructor/courses');
         }
 
         setValidated(true);
     };
 
     return (
-        <Container className="mt-3">
+        <Container className={clsx('mt-3', styles['wrapper'])}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <Form.Label>Tên khoá học</Form.Label>
@@ -66,9 +92,9 @@ const PostCourse = () => {
                 <Form.Group className="mb-3">
                     <Form.Label>Ảnh</Form.Label>
                     <Form.Control required name="img" type="file" onChange={handleChangeFile} />
-                    {img && <img width={300} className="mt-4 mb-3" style={{ maxHeight: '300px' }} src={img} alt="" />}
+                    {img && <img width={300} className="mt-4 mb-3" style={{ maxHeight: '30rem' }} src={img} alt="" />}
                 </Form.Group>
-                <Button variant="primary" type="submit" className="mb-3">
+                <Button variant="primary" type="submit" className={clsx('mb-3', styles['btn-submit'])}>
                     Submit
                 </Button>
             </Form>

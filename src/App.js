@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import './styles/index.scss';
 import { publicRoutes } from './routes/routes';
 import LayoutDefault from './layouts/LayoutDefault';
@@ -29,6 +30,7 @@ const App = () => {
                     );
                 })}
             </Routes>
+            <ToastContainer />
         </BrowserRouter>
     );
 };
