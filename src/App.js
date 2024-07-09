@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import './styles/index.scss';
 import { publicRoutes } from './routes/routes';
@@ -7,7 +7,7 @@ import LayoutDefault from './layouts/LayoutDefault';
 
 const App = () => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
                 {publicRoutes.map((route, index) => {
                     const Page = route.component;
@@ -31,7 +31,7 @@ const App = () => {
                 })}
             </Routes>
             <ToastContainer />
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 
