@@ -26,21 +26,22 @@ const CourseManage = () => {
     const [showModalAddLesson, setShowModalAddLesson] = useState(false);
 
     useEffect(() => {
-        let getDetailCourseFetch = async () => {
+        const getDetailCourseFetch = async () => {
             try {
-                let res = await getCourseDetailsService(courseId);
+                const res = await getCourseDetailsService(courseId);
                 if (!res?.errCode) {
-                    let course = res?.data;
-                    let chapterList = course?.chapterList?.map((chapter) => {
+                    const course = res?.data;
+                    const chapterList = course?.chapterList?.map((chapter) => {
                         return {
-                            chapterId: chapter?.chapterId,
+                            chapterId: chapter?.id,
                             chapterNumber: chapter?.chapterNumber,
                             title: chapter?.title,
                             numberOfLessons: chapter?.numberOfLessons,
                             lessonList: chapter?.lessonList?.map((lesson) => {
-                                let time = secondsConvertHoursAndMinutesAndSeconds(lesson?.time);
+                                const time = secondsConvertHoursAndMinutesAndSeconds(lesson?.time);
                                 return {
                                     lessonId: lesson?.id,
+                                    lessonNumber: lesson?.lessonNumber,
                                     name: lesson?.name,
                                     time: `${time?.m < 10 ? `0${time.m}` : `${time.m}`}:${
                                         time?.s < 10 ? `0${time.s}` : `${time.s}`
@@ -50,7 +51,7 @@ const CourseManage = () => {
                             }),
                         };
                     });
-                    let time = secondsConvertHoursAndMinutesAndSeconds(course?.time);
+                    const time = secondsConvertHoursAndMinutesAndSeconds(course?.time);
                     setCourseDetail({
                         name: course?.name,
                         img: convertBufferToBase64(course?.img),
@@ -79,8 +80,8 @@ const CourseManage = () => {
 
     const handleClickPanel = (index) => {
         if (listActivePanel.includes(index)) {
-            let i = listActivePanel.indexOf(index);
-            let copyListActivePanel = _.clone(listActivePanel);
+            const i = listActivePanel.indexOf(index);
+            const copyListActivePanel = _.clone(listActivePanel);
             copyListActivePanel.splice(i, 1);
             setListActivePanel([...copyListActivePanel]);
         } else {
@@ -216,12 +217,15 @@ const CourseManage = () => {
                                             {chapter?.lessonList?.map((lesson, index) => {
                                                 return (
                                                     <li key={`lesson-${index}`}>
-                                                        <Link
-                                                            to={`/course/${courseId}/${chapter?.chapterId}/${lesson?.lessonId}`}
-                                                            className={clsx(styles['lesson-name'])}
-                                                        >
-                                                            <FontAwesomeIcon icon={faCirclePlay} /> {lesson?.name}
-                                                        </Link>
+                                                        <div>
+                                                            <span className="fz-16 ">{lesson?.lessonNumber}. </span>
+                                                            <Link
+                                                                to={`/course/${courseId}/${chapter?.chapterId}/${lesson?.lessonId}`}
+                                                                className={clsx(styles['lesson-name'])}
+                                                            >
+                                                                <FontAwesomeIcon icon={faCirclePlay} /> {lesson?.name}
+                                                            </Link>
+                                                        </div>
                                                         <div className={clsx(styles['lesson-time'])}>
                                                             {lesson?.time}
                                                         </div>

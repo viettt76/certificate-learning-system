@@ -13,8 +13,13 @@ import {
     faStopwatch,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './CourseDetail.module.scss';
-import { getCourseDetailsService } from '~/services';
-import { convertBufferToBase64, formatPrice, secondsConvertHoursAndMinutesAndSeconds } from '~/utils/commonUtils';
+import { getCourseDetailsService, postCourseCartService, postFavoriteCourseService } from '~/services';
+import {
+    convertBufferToBase64,
+    customToast,
+    formatPrice,
+    secondsConvertHoursAndMinutesAndSeconds,
+} from '~/utils/commonUtils';
 
 const CourseDetail = () => {
     const { courseId } = useParams();
@@ -23,18 +28,18 @@ const CourseDetail = () => {
     const [listActivePanel, setListActivePanel] = useState([]);
 
     useEffect(() => {
-        let getCourseDetailFetch = async () => {
+        const getCourseDetailFetch = async () => {
             try {
-                let res = await getCourseDetailsService(courseId);
+                const res = await getCourseDetailsService(courseId);
                 if (!res?.errCode) {
-                    let course = res?.data;
-                    let chapterList = course.chapterList.map((chapter) => {
+                    const course = res?.data;
+                    const chapterList = course.chapterList.map((chapter) => {
                         return {
                             chapterNumber: chapter?.chapterNumber,
                             title: chapter?.title,
                             numberOfLessons: chapter?.numberOfLessons,
                             lessonList: chapter?.lessonList?.map((lesson) => {
-                                let time = secondsConvertHoursAndMinutesAndSeconds(lesson?.time);
+                                const time = secondsConvertHoursAndMinutesAndSeconds(lesson?.time);
                                 return {
                                     name: lesson?.name,
                                     time: `${time?.m < 10 ? `0${time.m}` : `${time.m}`}:${
@@ -45,7 +50,7 @@ const CourseDetail = () => {
                             }),
                         };
                     });
-                    let time = secondsConvertHoursAndMinutesAndSeconds(course?.time);
+                    const time = secondsConvertHoursAndMinutesAndSeconds(course?.time);
                     setCourseDetail({
                         name: course?.name,
                         img: convertBufferToBase64(course?.img),
@@ -73,8 +78,8 @@ const CourseDetail = () => {
 
     const handleClickPanel = (index) => {
         if (listActivePanel.includes(index)) {
-            let i = listActivePanel.indexOf(index);
-            let copyListActivePanel = _.clone(listActivePanel);
+            const i = listActivePanel.indexOf(index);
+            const copyListActivePanel = _.clone(listActivePanel);
             copyListActivePanel.splice(i, 1);
             setListActivePanel([...copyListActivePanel]);
         } else {
@@ -87,6 +92,38 @@ const CourseDetail = () => {
             setListActivePanel([]);
         } else {
             setListActivePanel([...Array(courseDetail?.chapterList?.length).keys()]);
+        }
+    };
+
+    const handleAddFavorite = async () => {
+        try {
+            const res = await postFavoriteCourseService(courseId);
+            if (!res?.errCode) {
+                customToast('success', 'Add new favorite course successfully!');
+            } else if (res?.errCode) {
+                customToast('error', res?.message || 'You have added this course to your favorites!');
+            }
+        } catch (error) {
+            console.log(error);
+            if (error?.errCode) {
+                customToast('error', error?.message || 'You have added this course to your favorites!');
+            }
+        }
+    };
+
+    const handleAddCart = async () => {
+        try {
+            const res = await postCourseCartService(courseId);
+            if (!res?.errCode) {
+                customToast('success', 'Added the course to the shopping cart successfully!');
+            } else if (res?.errCode === 1) {
+                customToast('warning', 'You have added this course to your cart!');
+            }
+        } catch (error) {
+            console.log(error);
+            if (error?.errCode) {
+                customToast('error', error?.message || 'You have added this course to your cart!');
+            }
         }
     };
 
@@ -114,12 +151,27 @@ const CourseDetail = () => {
                     </div>
                     <p className={clsx(styles['course-description'])}>{courseDetail?.description}</p>
                     <p className={clsx(styles['course-rated'])}>
-                        {courseDetail?.rate} stars {courseDetail?.numberOfParticipants} học viên
+                        <span className="me-4">
+                            {Number(courseDetail?.rate) === 0 ? 'Chưa có lượt đánh giá' : `${courseDetail?.rate} stars`}
+                        </span>
+                        <span>{courseDetail?.numberOfParticipants} học viên</span>
                     </p>
                 </div>
                 <div className={clsx(styles['buy-course-wrapper'])}>
+                    <button
+                        className={clsx('btn btn-lg btn-primary', styles['btn-add-favorite'])}
+                        onClick={handleAddCart}
+                    >
+                        Thêm vào giỏ hàng
+                    </button>
+                    <button
+                        className={clsx('btn btn-lg btn-primary', styles['btn-add-favorite'])}
+                        onClick={handleAddFavorite}
+                    >
+                        Thêm vào yêu thích
+                    </button>
                     <p className={clsx(styles['course-price'])}>{formatPrice(courseDetail?.price, 'VND')}</p>
-                    <Link className={clsx('btn', styles['button-buy'])} size="lg">
+                    <Link className={clsx('btn', styles['button-buy'])} size="lg" to="purchase">
                         Mua khoá học {'>'}
                     </Link>
                 </div>

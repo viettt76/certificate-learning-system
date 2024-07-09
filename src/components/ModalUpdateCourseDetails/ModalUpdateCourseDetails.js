@@ -38,7 +38,7 @@ const ModalUpdateCourseDetails = ({ id, name, img, description, price, level, sh
 
     const handleChangeFile = async (e) => {
         try {
-            let base64 = await fileToBase64(e.target.files[0]);
+            const base64 = await fileToBase64(e.target.files[0]);
             setImgPreview(base64);
             setCourseInfo({
                 ...courseInfo,
@@ -81,7 +81,7 @@ const ModalUpdateCourseDetails = ({ id, name, img, description, price, level, sh
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Ảnh</Form.Label>
-                        <Form.Control required name="img" type="file" onChange={handleChangeFile} />
+                        <Form.Control name="img" type="file" onChange={handleChangeFile} />
                         <img width="100%" style={{ maxHeight: '40rem' }} src={imgPreview} alt="" />
                     </Form.Group>
                     <Form.Group className="mb-3">

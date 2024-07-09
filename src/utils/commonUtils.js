@@ -30,9 +30,9 @@ export const formatPrice = (price, style) => {
 };
 
 export const secondsConvertHoursAndMinutesAndSeconds = (seconds) => {
-    let h = (seconds - (seconds % 3600)) / 3600;
-    let m = (seconds - h * 3600 - ((seconds - h * 3600) % 60)) / 60;
-    let s = seconds % 60;
+    const h = (seconds - (seconds % 3600)) / 3600;
+    const m = (seconds - h * 3600 - ((seconds - h * 3600) % 60)) / 60;
+    const s = seconds % 60;
     return { h, m, s };
 };
 
@@ -61,7 +61,7 @@ export const customToast = (type, message) => {
                 theme: 'light',
             });
         case 'warning':
-            return toast.success(message, {
+            return toast.warn(message, {
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -72,7 +72,7 @@ export const customToast = (type, message) => {
                 theme: 'light',
             });
         case 'error':
-            return toast.success(message, {
+            return toast.error(message, {
                 position: 'top-right',
                 autoClose: 5000,
                 hideProgressBar: false,

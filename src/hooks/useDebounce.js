@@ -4,7 +4,7 @@ const useDebounce = (value, delay) => {
     const [temporary, setTemporary] = useState(value);
 
     useEffect(() => {
-        let time = setTimeout(() => {
+        const time = setTimeout(() => {
             setTemporary(value);
         }, delay);
 

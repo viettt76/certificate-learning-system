@@ -5,16 +5,19 @@ export const loginService = (userInfo) => {
 };
 
 export const logoutService = () => {
-    axios.defaults.withCredentials = true;
-    return axios.post('user/logout');
+    return axios.post('user/logout', {}, { withCredentials: true });
+};
+
+export const verifyTokenService = () => {
+    return axios.post('/user/verify-token', {}, { withCredentials: true });
 };
 
 export const getPersonalInfoService = () => {
     return axios.get('/user/personal-info', { withCredentials: true });
 };
 
-export const registerTeacherService = (id) => {
-    return axios.patch('/user/is_teacher', { id });
+export const registerTeacherService = (teacherInfo) => {
+    return axios.patch('/user/is_teacher', teacherInfo);
 };
 
 export const searchTeacherService = (keyword) => {

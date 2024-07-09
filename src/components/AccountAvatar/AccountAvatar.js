@@ -39,7 +39,7 @@ const AccountAvatar = ({ type = 'user' }) => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                let res = await getPersonalInfoService();
+                const res = await getPersonalInfoService();
                 if (!res?.errCode) {
                     setUserInfo(res?.data);
                 } else {
@@ -47,6 +47,7 @@ const AccountAvatar = ({ type = 'user' }) => {
                 }
             } catch (error) {
                 console.log(error);
+                setUserInfo(null);
             }
         };
 
@@ -96,16 +97,22 @@ const AccountAvatar = ({ type = 'user' }) => {
                                     <ul className={clsx(styles['group-menu-item'])}>
                                         {section?.map((item) => {
                                             if (item?.component) {
-                                                let Component = item?.component;
+                                                const Component = item?.component;
                                                 return (
-                                                    <li key={`item-${index}`} className={clsx(styles['menu-item'])}>
+                                                    <li
+                                                        key={`item-component-${index}`}
+                                                        className={clsx(styles['menu-item'])}
+                                                    >
                                                         <Component />
                                                     </li>
                                                 );
                                             }
                                             if (item?.link) {
                                                 return (
-                                                    <li key={`item-${index}`} className={clsx(styles['menu-item'])}>
+                                                    <li
+                                                        key={`item-link-${index}`}
+                                                        className={clsx(styles['menu-item'])}
+                                                    >
                                                         <Link to={item?.link}>{item?.title}</Link>
                                                     </li>
                                                 );

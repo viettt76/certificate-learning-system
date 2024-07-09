@@ -1,0 +1,28 @@
+.wrapper {
+    min-width: 400px;
+
+    .course-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .course-name {
+        font-size: 1.6rem;
+    }
+
+    .course-price {
+        font-size: 1.2rem;
+    }
+
+    .total-payment {
+        border-top: 0.1rem solid #d1d7dc;
+        padding-top: 1.4rem;
+        font-size: 1.6rem;
+    }
+
+    .btn-payment {
+        font-size: 1.6rem !important;
+        margin-top: 1.4rem;
+        width: 100%;
+    }
+}

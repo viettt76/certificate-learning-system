@@ -32,7 +32,7 @@ const GroupCourses = ({ title, groupCourses, isTeacher }) => {
     return (
         <div
             className={clsx(
-                groupCourses.length < slidesToShow ? 'slick-track-number-of-slide-less-slides-to-show' : '',
+                groupCourses?.length <= slidesToShow ? 'slick-track-number-of-slide-less-slides-to-show' : '',
                 styles['wrapper'],
             )}
         >

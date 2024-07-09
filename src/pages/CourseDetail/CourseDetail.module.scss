@@ -60,10 +60,16 @@
         .buy-course-wrapper {
             height: inherit;
             display: flex;
+            justify-content: space-around;
             flex-direction: column;
             justify-content: center;
             border-left: 0.1rem solid rgba(122, 122, 122, 0.1294117647);
             padding-left: 30px;
+
+            .btn-add-favorite {
+                font-size: 1.6rem;
+                margin-bottom: 1.2rem;
+            }
 
             .course-price {
                 font-size: 2.3rem;

@@ -33,3 +33,27 @@ export const searchCourseService = (keyword) => {
 export const updateCourseInfoService = (data) => {
     return axios.put('/course/update-info', data);
 };
+
+export const postFavoriteCourseService = (courseId) => {
+    return axios.post('/course/favorite/add', { courseId }, { withCredentials: true });
+};
+
+export const getFavoriteCourseListService = () => {
+    return axios.get('/course/favorite', { withCredentials: true });
+};
+
+export const postCourseCartService = (courseId) => {
+    return axios.post('/course/cart/add', { courseId }, { withCredentials: true });
+};
+
+export const getCourseCartService = () => {
+    return axios.get('/course/cart', { withCredentials: true });
+};
+
+export const postPurchasedCourseService = (courseId) => {
+    return axios.post('/course/purchased/add', { courseId }, { withCredentials: true });
+};
+
+export const getPurchasedCourseService = () => {
+    return axios.get('/course/purchased', { withCredentials: true });
+};

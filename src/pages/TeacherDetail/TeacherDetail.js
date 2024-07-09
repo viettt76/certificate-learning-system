@@ -16,7 +16,7 @@ const TeacherDetail = () => {
     useEffect(() => {
         const getTeacherInfo = async () => {
             try {
-                let res = await getTeacherInfoService(id);
+                const res = await getTeacherInfoService(id);
                 setTeacherInfo(res?.data);
             } catch (error) {
                 console.log(error);
@@ -50,7 +50,10 @@ const TeacherDetail = () => {
                 </ul>
                 <div className={clsx(styles['introducing-me'])}>
                     <span className={clsx(styles['introducing-me-title'])}>Giới thiệu về tôi</span>
-                    <p className={clsx(styles['introducing-me-content'])}>{teacherInfo?.introduction}</p>
+                    <p
+                        className={clsx(styles['introducing-me-content'])}
+                        dangerouslySetInnerHTML={{ __html: teacherInfo?.introduction }}
+                    ></p>
                 </div>
                 <div className={clsx(styles['my-course-list'])}>
                     <span className={clsx(styles['my-course-list-title'])}>
@@ -76,14 +79,16 @@ const TeacherDetail = () => {
                                     <div className={clsx(styles['my-course-list-item-rate'])}>
                                         {course?.rated}{' '}
                                         <span className={clsx(styles['stars'])}>
-                                            {[...Array(Math.floor(course?.rated))]?.map((i) => {
-                                                return <FontAwesomeIcon icon={faStarSolid} />;
+                                            {[...Array(Math.floor(course?.rated))]?.map((x, index) => {
+                                                return (
+                                                    <FontAwesomeIcon key={`star-solid-${index}`} icon={faStarSolid} />
+                                                );
                                             })}
                                             {course?.rated > Math.floor(course?.rated) && (
                                                 <FontAwesomeIcon icon={faStarHalfStroke} />
                                             )}
-                                            {[...Array(5 - Math.round(course?.rated))]?.map((i) => {
-                                                return <FontAwesomeIcon icon={faStar} />;
+                                            {[...Array(5 - Math.round(course?.rated))]?.map((x, index) => {
+                                                return <FontAwesomeIcon key={`star-regular-${index}`} icon={faStar} />;
                                             })}
                                         </span>
                                     </div>

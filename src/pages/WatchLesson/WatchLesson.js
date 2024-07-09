@@ -27,17 +27,17 @@ const WatchLesson = () => {
     useEffect(() => {
         const fetchGetCourseDetailsAndLessonVideo = async () => {
             try {
-                let resCourse = await getCourseDetailsService(courseId);
-                if (resCourse?.errCode === 0) {
-                    let course = resCourse?.data;
-                    let chapterList = course?.chapterList?.map((chapter) => {
+                const resCourse = await getCourseDetailsService(courseId);
+                if (!resCourse?.errCode) {
+                    const course = resCourse?.data;
+                    const chapterList = course?.chapterList?.map((chapter) => {
                         return {
                             chapterId: chapter?.chapterId,
                             chapterNumber: chapter?.chapterNumber,
                             title: chapter?.title,
                             numberOfLessons: chapter?.numberOfLessons,
                             lessonList: chapter?.lessonList?.map((lesson) => {
-                                let time = secondsConvertHoursAndMinutesAndSeconds(lesson?.time);
+                                const time = secondsConvertHoursAndMinutesAndSeconds(lesson?.time);
                                 return {
                                     lessonId: lesson?.id,
                                     name: lesson?.name,
@@ -49,7 +49,7 @@ const WatchLesson = () => {
                             }),
                         };
                     });
-                    let time = secondsConvertHoursAndMinutesAndSeconds(course?.time);
+                    const time = secondsConvertHoursAndMinutesAndSeconds(course?.time);
                     setCourseDetail({
                         name: course?.name,
                         img: convertBufferToBase64(course?.img),
@@ -68,7 +68,7 @@ const WatchLesson = () => {
                     });
                 }
 
-                let resLesson = await getLessonVideoService(lessonId);
+                const resLesson = await getLessonVideoService(lessonId);
                 setLessonInfo({
                     ...resLesson?.data,
                     video: getId(resLesson?.data?.video),
@@ -85,13 +85,13 @@ const WatchLesson = () => {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
         const match = url.match(regExp);
 
-        return match && match[2].length === 11 ? match[2] : null;
+        return match && match[2]?.length === 11 ? match[2] : null;
     }
 
     const handleClickPanel = (index) => {
         if (listActivePanel.includes(index)) {
-            let i = listActivePanel.indexOf(index);
-            let copyListActivePanel = _.clone(listActivePanel);
+            const i = listActivePanel.indexOf(index);
+            const copyListActivePanel = _.clone(listActivePanel);
             copyListActivePanel.splice(i, 1);
             setListActivePanel([...copyListActivePanel]);
         } else {
@@ -105,7 +105,7 @@ const WatchLesson = () => {
                 <YouTube videoId={lessonInfo?.video} opts={opts} />;
             </div>
             <div className="ms-3 w-100">
-                <h4 className="text-center">{courseDetail?.name}</h4>
+                <h2 className="text-center mt-3 mb-3 fw-bold">{courseDetail?.name}</h2>
                 <ul className={clsx(styles['curriculum-of-course-curriculum-panel'])}>
                     {courseDetail?.chapterList?.map((chapter, index) => {
                         return (
@@ -135,9 +135,11 @@ const WatchLesson = () => {
                                                 return (
                                                     <li key={`lesson-${index}`}>
                                                         <Link
-                                                            to={`/course/${courseId}/${chapter?.chapterId}/${lesson?.lessonId}`}
+                                                            className="me-3"
+                                                            to={`/course/${courseId}/${chapter?.id}/${lesson?.lessonId}`}
                                                         >
-                                                            <FontAwesomeIcon icon={faCirclePlay} /> {lesson?.name}
+                                                            <FontAwesomeIcon icon={faCirclePlay} />{' '}
+                                                            <span className="fz-16">{lesson?.name}</span>
                                                         </Link>
                                                         <div>{lesson?.time}</div>
                                                     </li>

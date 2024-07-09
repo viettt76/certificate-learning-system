@@ -15,7 +15,7 @@ const InstructorCourses = () => {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                let res = await getPersonalInfoService();
+                const res = await getPersonalInfoService();
                 if (!res?.errCode) {
                     setUserInfo(res?.data);
                 } else {
@@ -23,6 +23,7 @@ const InstructorCourses = () => {
                 }
             } catch (error) {
                 console.log(error);
+                setUserInfo(null);
             }
         };
 
@@ -33,13 +34,13 @@ const InstructorCourses = () => {
         const getCourseListFetch = async () => {
             try {
                 if (userInfo?.id) {
-                    let res = await getCourseTeachingService(userInfo.id);
+                    const res = await getCourseTeachingService(userInfo.id);
                     if (!res?.errCode) {
-                        let clone = _.cloneDeep(res.data).map((course) => {
+                        const clone = _.cloneDeep(res.data).map((course) => {
                             return {
                                 ...course,
                                 img: convertBufferToBase64(course?.img || ''),
-                                imgAuthor: userInfo?.picture,
+                                imgAuthor: convertBufferToBase64(userInfo?.picture || ''),
                                 nameAuthor: `${userInfo?.familyName} ${userInfo?.givenName}`,
                             };
                         });
@@ -63,7 +64,11 @@ const InstructorCourses = () => {
                 </Link>
             </div>
 
-            <GroupCourses groupCourses={courseList} isTeacher={true} />
+            {courseList?.length > 0 ? (
+                <GroupCourses groupCourses={courseList} isTeacher={true} />
+            ) : (
+                <div className={clsx('text-center fz-16 mt-3')}>Bạn chưa đăng khoá học nào.</div>
+            )}
         </Container>
     );
 };

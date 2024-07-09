@@ -9,13 +9,15 @@ import styles from './PostCourse.module.scss';
 const PostCourse = () => {
     const navigate = useNavigate();
     const [userInfo, setUserInfo] = useState(null);
+    const [img, setImg] = useState(null);
+    const [courseInfo, setCourseInfo] = useState(null);
 
     const [validated, setValidated] = useState(false);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                let res = await getPersonalInfoService();
+                const res = await getPersonalInfoService();
                 if (!res?.errCode) {
                     setUserInfo(res?.data);
                 } else {
@@ -23,17 +25,19 @@ const PostCourse = () => {
                 }
             } catch (error) {
                 console.log(error);
+                setUserInfo(null);
             }
         };
 
         fetchUserInfo();
     }, []);
 
-    const [img, setImg] = useState(null);
-    const [courseInfo, setCourseInfo] = useState({
-        authorId: userInfo?.id,
-        level: 1,
-    });
+    useEffect(() => {
+        setCourseInfo({
+            authorId: userInfo?.id,
+            level: 1,
+        });
+    }, [userInfo]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,7 +49,7 @@ const PostCourse = () => {
 
     const handleChangeFile = async (e) => {
         try {
-            let base64 = await fileToBase64(e.target.files[0]);
+            const base64 = await fileToBase64(e.target.files[0]);
             setImg(base64);
             setCourseInfo({
                 ...courseInfo,

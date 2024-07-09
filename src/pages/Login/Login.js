@@ -1,18 +1,35 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginService } from '~/services';
+import { loginService, verifyTokenService } from '~/services';
 import { customToast } from '~/utils/commonUtils';
 
 const Login = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchVerifyToken = async () => {
+            try {
+                const res = await verifyTokenService();
+                if (!res?.errCode) {
+                    navigate('/');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchVerifyToken();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div className="d-flex justify-content-center mt-3">
             <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                     try {
                         const decoded = jwtDecode(credentialResponse?.credential);
-                        let res = await loginService({
+                        const res = await loginService({
                             email: decoded?.email,
                             familyName: decoded?.family_name,
                             givenName: decoded?.given_name,
@@ -25,10 +42,11 @@ const Login = () => {
                         }
                     } catch (error) {
                         console.log(error);
+                        customToast('error', 'Login failed');
                     }
                 }}
                 onError={() => {
-                    console.log('Login Failed');
+                    customToast('error', 'Login failed');
                 }}
             />
         </div>

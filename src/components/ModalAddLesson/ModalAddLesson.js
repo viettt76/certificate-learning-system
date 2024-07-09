@@ -31,14 +31,14 @@ const ModalAddLesson = ({ courseId, nameCourse, chapterList, show, setShow }) =>
                 event.stopPropagation();
             } else {
                 if (newChapter) {
-                    let chapterInfo = {
+                    const chapterInfo = {
                         courseId,
                         chapterNumber: lessonInfo?.chapterNumber,
                         title: lessonInfo?.chapterTitle,
                     };
-                    let res = await postChapterService(chapterInfo);
+                    const res = await postChapterService(chapterInfo);
                     if (!res?.errCode) {
-                        let chapterId = res?.data?.chapterId;
+                        const chapterId = res?.data?.chapterId;
                         postLessonService({
                             chapterId,
                             lessonNumber: lessonInfo?.lessonNumber,

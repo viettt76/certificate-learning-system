@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import styles from './Course.module.scss';
-import { convertBufferToBase64, formatPrice } from '~/utils/commonUtils';
+import { formatPrice } from '~/utils/commonUtils';
 
 const Course = ({ courseId, img, name, authorId, imgAuthor, nameAuthor, time, price, isTeacher = false }) => {
     return (
@@ -10,11 +10,7 @@ const Course = ({ courseId, img, name, authorId, imgAuthor, nameAuthor, time, pr
             <p className={clsx(styles['name'])}>{name}</p>
             <div className={clsx(styles['author-time'])}>
                 <Link to={`/teacher/${authorId}`} className={clsx(styles['author-info'])}>
-                    <img
-                        className={clsx(styles['img-author'])}
-                        src={convertBufferToBase64(imgAuthor)}
-                        alt={nameAuthor}
-                    />
+                    <img className={clsx(styles['img-author'])} src={imgAuthor} alt={nameAuthor} />
                     <span className={clsx(styles['name-author'])}>{nameAuthor}</span>
                 </Link>
                 <div className={clsx(styles['time'])}>{time}</div>

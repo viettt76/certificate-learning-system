@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faMagnifyingGlass, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faMagnifyingGlass, faHeart, faChalkboardUser } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';
 import styles from './Header.module.scss';
 import logo from '~/assets/imgs/VEdu.png';
@@ -11,32 +11,6 @@ import { getPersonalInfoService, searchTeacherService, searchCourseService } fro
 import useDebounce from '~/hooks/useDebounce';
 import { convertBufferToBase64 } from '~/utils/commonUtils';
 
-const courseList = [
-    {
-        img: 'https://th.bing.com/th/id/OIP.JWsuS6dzIXoA4wqfBSWyywHaEK?rs=1&pid=ImgDetMain',
-        name: 'Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing',
-        price: '300.000d',
-    },
-    {
-        img: 'https://th.bing.com/th/id/OIP.JWsuS6dzIXoA4wqfBSWyywHaEK?rs=1&pid=ImgDetMain',
-        name: 'Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing',
-        price: '300.000d',
-    },
-];
-
-const courseList2 = [
-    {
-        img: 'https://th.bing.com/th/id/OIP.MdOfxiQLOKSYowdtAqT19gHaFj?w=1024&h=768&rs=1&pid=ImgDetMain',
-        name: 'Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing',
-        price: '300.000d',
-    },
-    {
-        img: 'https://th.bing.com/th/id/OIP.MdOfxiQLOKSYowdtAqT19gHaFj?w=1024&h=768&rs=1&pid=ImgDetMain',
-        name: 'Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing Digital Marketing',
-        price: '300.000d',
-    },
-];
-
 const Header = () => {
     const [userInfo, setUserInfo] = useState(null);
 
@@ -44,12 +18,12 @@ const Header = () => {
     const [searchCourseList, setSearchCourseList] = useState([]);
     const [searchTeacherList, setSearchTeacherList] = useState([]);
 
-    let searchKeyword = useDebounce(keyword, 500);
+    const searchKeyword = useDebounce(keyword, 500);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                let res = await getPersonalInfoService();
+                const res = await getPersonalInfoService();
                 if (!res?.errCode) {
                     setUserInfo(res?.data);
                 } else {
@@ -57,6 +31,7 @@ const Header = () => {
                 }
             } catch (error) {
                 console.log(error);
+                setUserInfo(null);
             }
         };
 
@@ -66,8 +41,8 @@ const Header = () => {
     useEffect(() => {
         const fetchSearch = async () => {
             try {
-                let resCourse = await searchCourseService(searchKeyword);
-                let resTeacher = await searchTeacherService(searchKeyword);
+                const resCourse = await searchCourseService(searchKeyword);
+                const resTeacher = await searchTeacherService(searchKeyword);
                 setSearchCourseList(resCourse?.data);
                 setSearchTeacherList(resTeacher?.data);
             } catch (error) {
@@ -75,7 +50,7 @@ const Header = () => {
             }
         };
 
-        if (searchKeyword || keyword.length > 0) fetchSearch();
+        if (searchKeyword || keyword?.length > 0) fetchSearch();
         else {
             setSearchCourseList([]);
             setSearchTeacherList([]);
@@ -90,7 +65,7 @@ const Header = () => {
             </Link>
             <div className={clsx(styles['search-wrapper'])}>
                 <div className={clsx(styles['search-input'])}>
-                    <input onKeyUp={(e) => setKeyword(e.target.value)} placeholder="Tìm tên khoá học" />
+                    <input onKeyUp={(e) => setKeyword(e.target.value)} placeholder="Tìm tên khoá học, giảng viên" />
                     <button className={clsx(styles['search-button'])}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
@@ -145,26 +120,37 @@ const Header = () => {
             {userInfo ? (
                 <div className={clsx(styles['user-actions'])}>
                     <NoticeOfCourseList
+                        title="Giỏ hàng"
+                        type="cart"
+                        icon={faCartShopping}
+                        textWhenEmpty="Giỏ hàng của bạn đang trống."
+                        textLinkWhenEmpty="Tiếp tục mua sắm"
+                        linkWhenEmpty="/"
+                    />
+                    <NoticeOfCourseList
                         title="Khoá học yêu thích"
-                        courseList={courseList}
+                        type="favorites"
                         icon={faHeart}
                         textWhenEmpty="Danh sách mong ước của bạn đang trống."
                         textLinkWhenEmpty="Khám phá các khoá học"
                         linkWhenEmpty="/"
                     />
                     <NoticeOfCourseList
-                        title="Giỏ hàng"
-                        courseList={courseList2}
-                        icon={faCartShopping}
-                        textWhenEmpty="Giỏ hàng của bạn đang trống."
-                        textLinkWhenEmpty="Tiếp tục mua sắm"
-                        linkWhenEmpty="/cart"
+                        title="Khoá học đang học"
+                        type="studying"
+                        icon={faChalkboardUser}
+                        textWhenEmpty="Bạn chưa học khoá học nào."
+                        textLinkWhenEmpty="Khám phá các khoá học"
+                        linkWhenEmpty="/"
                     />
                     <AccountAvatar className={clsx(styles['user-action'])} />
                 </div>
             ) : (
                 <div>
-                    <Link className={clsx('btn btn-dark font-weight-bold text-nowrap')} to="/login">
+                    <Link
+                        className={clsx('btn btn-dark font-weight-bold text-nowrap', styles['btn-login'])}
+                        to="/login"
+                    >
                         Đăng nhập
                     </Link>
                 </div>
