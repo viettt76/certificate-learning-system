@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/online-learning-system-frontend/static/css/main.361b9f36.css",
-    "main.js": "/online-learning-system-frontend/static/js/main.17bea2c7.js",
+    "main.js": "/online-learning-system-frontend/static/js/main.fcb2c4aa.js",
     "static/media/slide1.png": "/online-learning-system-frontend/static/media/slide1.551c500258cfa2a30fd5.png",
     "static/media/slide2.jpg": "/online-learning-system-frontend/static/media/slide2.612a579e705f9ab70655.jpg",
     "static/media/VEdu.png": "/online-learning-system-frontend/static/media/VEdu.c8c3f46f3a0fa06c4898.png",
@@ -11,10 +11,10 @@
     "static/media/slick.woff": "/online-learning-system-frontend/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/online-learning-system-frontend/index.html",
     "main.361b9f36.css.map": "/online-learning-system-frontend/static/css/main.361b9f36.css.map",
-    "main.17bea2c7.js.map": "/online-learning-system-frontend/static/js/main.17bea2c7.js.map"
+    "main.fcb2c4aa.js.map": "/online-learning-system-frontend/static/js/main.fcb2c4aa.js.map"
   },
   "entrypoints": [
     "static/css/main.361b9f36.css",
-    "static/js/main.17bea2c7.js"
+    "static/js/main.fcb2c4aa.js"
   ]
 }
